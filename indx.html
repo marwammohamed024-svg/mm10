@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>M10 Store — Modern Black & White</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #ffffff;
+        --fg: #0b0b0b;
+        --muted: #7a7a7a;
+        --accent: #000000;
+        --accent-2: #111111;
+        --card-shadow: 0 8px 30px rgba(11, 11, 11, 0.06);
+        --radius: 12px;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      html,
+      body {
+        height: 100%;
+      }
+      body {
+        margin: 0;
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto,
+          "Helvetica Neue", Arial;
+        background: var(--bg);
+        color: var(--fg);
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      /* SPLASH */
+      #splash {
+        position: fixed;
+        inset: 0;
+        background: #000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        color: #fff;
+        flex-direction: column;
+        gap: 14px;
+        transition: opacity 0.6s ease;
+      }
+      #splash .logo {
+        width: 96px;
+        height: 96px;
+        border-radius: 20px;
+        background: linear-gradient(135deg, #fff 0%, #ddd 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #000;
+        font-weight: 800;
+        font-size: 28px;
+        letter-spacing: 2px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+      }
+      #splash.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* Header */
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: linear-gradient(180deg, #000, #000);
+        color: #fff;
+        padding: 14px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        cursor: pointer;
+      }
+      .brand .logo-sm {
+        width: 48px;
+        height: 48px;
+        border-radius: 10px;
+        background: #fff;
+        color: #000;
+        font-weight: 800;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+      }
+      .brand h1 {
+        font-size: 18px;
+        margin: 0;
+        letter-spacing: 2px;
+        font-weight: 700;
+      }
+      nav {
+        display: flex;
+        gap: 18px;
+        align-items: center;
+      }
+      nav a {
+        color: #fff;
+        text-decoration: none;
+        font-weight: 600;
+        opacity: 0.95;
+      }
+      nav a:hover {
+        opacity: 1;
+        color: #ddd;
+      }
+      .contact-call {
+        background: #fff;
+        color: #000;
+        padding: 8px 12px;
+        border-radius: 999px;
+        font-weight: 700;
+        text-decoration: none;
+      }
+
+      /* Hero */
+      .hero {
+        padding: 48px 22px;
+        display: flex;
+        gap: 28px;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .hero-left {
+        max-width: 640px;
+      }
+      .hero h2 {
+        font-size: 36px;
+        margin: 0 0 10px 0;
+        line-height: 1.02;
+      }
+      .hero p {
+        color: var(--muted);
+        margin-bottom: 18px;
+      }
+      .cta {
+        display: inline-flex;
+        gap: 10px;
+        align-items: center;
+        background: #000;
+        color: #fff;
+        padding: 12px 18px;
+        border-radius: 10px;
+        font-weight: 700;
+        border: none;
+        cursor: pointer;
+        box-shadow: var(--card-shadow);
+      }
+      .sub-cta {
+        background: transparent;
+        border: 2px solid #000;
+        color: #000;
+        padding: 10px 15px;
+        border-radius: 10px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* Layout */
+      .container {
+        max-width: 1200px;
+        margin: 28px auto;
+        padding: 0 22px;
+      }
+      .controls {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        flex-wrap: wrap;
+      }
+      .search {
+        flex: 1;
+        max-width: 520px;
+        display: flex;
+        gap: 8px;
+      }
+      .search input {
+        flex: 1;
+        padding: 10px 12px;
+        border-radius: 10px;
+        border: 1px solid #e6e6e6;
+      }
+      .filters {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+      }
+      .chip {
+        padding: 8px 12px;
+        border-radius: 999px;
+        border: 1px solid #e6e6e6;
+        background: #fff;
+        cursor: pointer;
+        font-weight: 600;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+        gap: 18px;
+      }
+
+      /* Product Card */
+      .card {
+        background: #fff;
+        border-radius: var(--radius);
+        overflow: hidden;
+        border: 1px solid #efefef;
+        box-shadow: var(--card-shadow);
+        transition: transform 0.18s ease;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+      }
+      .card .img {
+        height: 260px;
+        background: #f2f2f2;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+      .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .card .body {
+        padding: 12px 14px;
+      }
+      .card h3 {
+        font-size: 16px;
+        margin: 4px 0;
+      }
+      .price {
+        font-weight: 800;
+        font-size: 18px;
+        margin: 6px 0;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        margin-top: 10px;
+      }
+      .btn {
+        flex: 1;
+        padding: 10px;
+        border-radius: 10px;
+        border: none;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn.outline {
+        background: #fff;
+        border: 2px solid #000;
+      }
+      .btn.primary {
+        background: #000;
+        color: #fff;
+      }
+
+      /* Cart sidebar */
+      .cart-btn {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        background: #000;
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 999px;
+        z-index: 80;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+        cursor: pointer;
+        font-weight: 800;
+      }
+      .cart-sidebar {
+        position: fixed;
+        right: 0;
+        top: 0;
+        height: 100%;
+        width: 380px;
+        max-width: 92vw;
+        background: #fff;
+        box-shadow: -18px 0 40px rgba(0, 0, 0, 0.12);
+        transform: translateX(110%);
+        transition: transform 0.28s ease;
+        z-index: 90;
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .cart-sidebar.open {
+        transform: translateX(0);
+      }
+      .cart-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .cart-list {
+        flex: 1;
+        overflow: auto;
+        padding-right: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .cart-item {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        border-radius: 8px;
+        padding: 8px;
+        background: #fafafa;
+      }
+      .cart-item img {
+        width: 64px;
+        height: 64px;
+        object-fit: cover;
+        border-radius: 8px;
+      }
+      .qty {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+      }
+      .qty button {
+        padding: 6px 8px;
+        border: none;
+        background: #eee;
+        border-radius: 6px;
+        cursor: pointer;
+      }
+      .checkout {
+        padding: 12px;
+        border-radius: 10px;
+        background: #000;
+        color: #fff;
+        font-weight: 800;
+        border: none;
+        cursor: pointer;
+      }
+
+      /* Modal product detail */
+      .modal {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 110;
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.18s ease;
+      }
+      .modal.open {
+        opacity: 1;
+        pointer-events: auto;
+      }
+      .modal-card {
+        width: 92%;
+        max-width: 920px;
+        background: #fff;
+        border-radius: 16px;
+        display: grid;
+        grid-template-columns: 1fr 400px;
+        gap: 18px;
+        padding: 18px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+      }
+      .modal-left img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 10px;
+      }
+      .modal-right {
+        padding: 8px 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .modal-right h2 {
+        margin: 0;
+      }
+      .close-modal {
+        position: absolute;
+        right: 18px;
+        top: 18px;
+        background: #fff;
+        border-radius: 8px;
+        padding: 8px;
+        cursor: pointer;
+        font-weight: 800;
+      }
+
+      /* Footer */
+      footer {
+        margin-top: 34px;
+        background: #000;
+        color: #fff;
+        padding: 18px;
+        text-align: center;
+      }
+
+      /* Responsive */
+      @media (max-width: 900px) {
+        .hero {
+          flex-direction: column;
+          align-items: flex-start;
+          padding: 30px;
+        }
+        .modal-card {
+          grid-template-columns: 1fr;
+        }
+        .cart-sidebar {
+          width: 92vw;
+        }
+      }
+      @media (max-width: 520px) {
+        .hero h2 {
+          font-size: 28px;
+        }
+        header {
+          padding: 12px;
+        }
+        nav {
+          gap: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- SPLASH -->
+    <div id="splash">
+      <div class="logo">M10</div>
+      <div style="color: #fff; font-weight: 600; opacity: 0.9">M10 Store</div>
+    </div>
+
+    <!-- HEADER -->
+    <header>
+      <div class="brand" onclick="goHome()">
+        <div class="logo-sm">M10</div>
+        <h1>M10 Store</h1>
+      </div>
+      <nav>
+        <a href="#" onclick="goHome();return false">Home</a>
+        <a href="#products" onclick="scrollToProducts();return false"
+          >Products</a
+        >
+        <a href="tel:01126389911" class="contact-call">Call: 01126389911</a>
+      </nav>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-left">
+        <h2>Modern Black & White Fashion</h2>
+        <p style="max-width: 560px">
+          Discover curated tees with premium fabric and sharp designs. Fast
+          checkout, secure local storage cart and mobile-ready layout.
+        </p>
+        <div style="display: flex; gap: 12px; margin-top: 10px">
+          <button class="cta" onclick="scrollToProducts()">Shop Now</button>
+          <button class="sub-cta" onclick="openCart()">View Cart</button>
+        </div>
+      </div>
+      <div style="max-width: 420px">
+        <img
+          src="https://images.unsplash.com/photo-1520975917870-8a5f0ab2c8f8?q=80&w=900&auto=format&fit=crop&ixlib=rb-4.0.3&s=3fdd8fe50ed2b4a6ef5f3f7d5a9c8f7a"
+          alt="hero"
+          style="
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+          "
+        />
+      </div>
+    </section>
+
+    <!-- MAIN -->
+    <main class="container">
+      <div class="controls">
+        <div class="search">
+          <input
+            id="searchInput"
+            placeholder="Search products..."
+            oninput="renderProducts()"
+          />
+        </div>
+        <div class="filters">
+          <div class="chip" onclick="resetFilters()">All</div>
+          <div class="chip" onclick="filterBy('T-Shirt')">T-Shirts</div>
+          <div class="chip" onclick="filterBy('Hoodie')">Hoodies</div>
+        </div>
+      </div>
+
+      <section id="products" class="grid" aria-live="polite"></section>
+    </main>
+
+    <!-- CART BUTTON -->
+    <button class="cart-btn" onclick="openCart()">
+      CART (<span id="cartCount">0</span>)
+    </button>
+
+    <!-- CART SIDEBAR -->
+    <aside id="cartSidebar" class="cart-sidebar" aria-hidden="true">
+      <div class="cart-header">
+        <strong>Your Cart</strong>
+        <button
+          onclick="closeCart()"
+          style="
+            background: transparent;
+            border: none;
+            font-weight: 800;
+            cursor: pointer;
+          "
+        >
+          Close ✕
+        </button>
+      </div>
+      <div class="cart-list" id="cartList"></div>
+      <div
+        style="
+          display: flex;
+          gap: 10px;
+          align-items: center;
+          justify-content: space-between;
+        "
+      >
+        <div style="font-weight: 800">
+          Total: <span id="cartTotal">0.00</span> EGP
+        </div>
+        <div style="display: flex; gap: 8px">
+          <button class="btn outline" onclick="clearCart()">Clear</button>
+          <button class="checkout" onclick="goCheckout()">Checkout</button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- PRODUCT MODAL -->
+    <div id="modal" class="modal" onclick="closeModal(event)">
+      <div
+        class="modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modalTitle"
+      >
+        <button class="close-modal" onclick="closeModal(event)">✕</button>
+        <div class="modal-left">
+          <img id="modalImg" src="" alt="product image" />
+        </div>
+        <div class="modal-right">
+          <h2 id="modalTitle">Product</h2>
+          <p id="modalCategory" style="color: var(--muted); margin: 0">
+            Category
+          </p>
+          <div
+            style="font-weight: 800; font-size: 20px; margin-top: 6px"
+            id="modalPrice"
+          >
+            0 EGP
+          </div>
+          <p id="modalDesc" style="color: var(--muted); margin-top: 12px">
+            Description
+          </p>
+          <div style="display: flex; gap: 8px; margin-top: 12px">
+            <label>Qty</label>
+            <input
+              id="modalQty"
+              type="number"
+              min="1"
+              value="1"
+              style="
+                width: 80px;
+                padding: 8px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+            />
+          </div>
+          <div style="margin-top: 16px; display: flex; gap: 10px">
+            <button class="btn primary" onclick="addFromModal()">
+              Add to Cart
+            </button>
+            <button class="btn outline" onclick="closeModal(event)">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHECKOUT MODAL (simple flow) -->
+    <div id="checkoutModal" class="modal" onclick="closeCheckoutModal(event)">
+      <div class="modal-card" style="max-width: 720px">
+        <button class="close-modal" onclick="closeCheckoutModal(event)">
+          ✕
+        </button>
+        <div style="padding: 10px">
+          <h2>Checkout</h2>
+          <p style="color: var(--muted)">Fill your details to complete order</p>
+          <form id="checkoutForm" onsubmit="completeOrder(event)">
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+                margin-top: 12px;
+              "
+            >
+              <input
+                name="name"
+                placeholder="Full name"
+                required
+                style="
+                  flex: 1;
+                  padding: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+              />
+              <input
+                name="email"
+                type="email"
+                placeholder="Email"
+                required
+                style="
+                  flex: 1;
+                  padding: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+              />
+              <input
+                name="phone"
+                placeholder="Phone (e.g. 01126389911)"
+                required
+                style="
+                  flex: 1;
+                  padding: 10px;
+                  border-radius: 8px;
+                  border: 1px solid #eee;
+                "
+              />
+            </div>
+            <textarea
+              name="address"
+              placeholder="Shipping address"
+              required
+              style="
+                width: 100%;
+                margin-top: 10px;
+                padding: 10px;
+                border-radius: 8px;
+                border: 1px solid #eee;
+              "
+            ></textarea>
+            <div
+              style="
+                display: flex;
+                gap: 10px;
+                justify-content: flex-end;
+                margin-top: 12px;
+              "
+            >
+              <button
+                type="button"
+                class="btn outline"
+                onclick="closeCheckoutModal(event)"
+              >
+                Cancel
+              </button>
+              <button type="submit" class="btn primary">Place Order</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORDER CONFIRMATION MODAL -->
+    <div id="confirmModal" class="modal" onclick="closeConfirm(event)">
+      <div class="modal-card" style="max-width: 600px; text-align: center">
+        <button class="close-modal" onclick="closeConfirm(event)">✕</button>
+        <div style="padding: 20px">
+          <h2>Thank you — Order Placed!</h2>
+          <p id="orderSummary" style="color: var(--muted); margin-top: 8px"></p>
+          <div style="margin-top: 14px">
+            <button class="btn primary" onclick="closeConfirm(event)">
+              Continue Shopping
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <div
+        style="
+          max-width: 1100px;
+          margin: 0 auto;
+          padding: 6px 18px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+        "
+      >
+        <div>
+          <strong>M10 Store</strong><br /><small style="color: #ddd"
+            >Modern Black & White eShop</small
+          >
+        </div>
+        <div style="text-align: right">
+          <div>
+            Call / WhatsApp:
+            <a
+              href="tel:01126389911"
+              style="color: #fff; text-decoration: underline"
+              >01126389911</a
+            >
+          </div>
+          <small style="color: #bbb">&copy; 2025 M10 Store</small>
+        </div>
+      </div>
+    </footer>
+
+    <script>
+      /* ====== Product Data ====== */
+      const PRODUCTS = [
+        {
+          id: "p1",
+          title: "Classic Black Tee",
+          category: "T-Shirt",
+          price: 249,
+          img: "https://th.bing.com/th/id/R.d16a33a790d69f0091cee42d5f8954c8?rik=RLUffdRWhGPyAw&riu=http%3a%2f%2ffeature.com%2fcdn%2fshop%2fproducts%2ffeature-classic-tee-black.jpg%3fv%3d1596065122&ehk=JonqhNUSpoGe8RXmvtGIj36HGDY32XKKLnasH1IYjec%3d&risl=&pid=ImgRaw&r=0",
+          desc: "Premium cotton, regular fit, true black.",
+        },
+        {
+          id: "p2",
+          title: "Modern White Tee",
+          category: "T-Shirt",
+          price: 279,
+          img: "https://tse1.mm.bing.net/th/id/OIP.nQRBGZVgYVV63xU5Q5DB6QHaHa?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          desc: "Soft touch fabric, minimal logo.",
+        },
+        {
+          id: "p3",
+          title: "Grey Hoodie",
+          category: "Hoodie",
+          price: 499,
+          img: "https://img.freepik.com/premium-photo/grey-color-blank-hoodie-mockup-front-view-white-background_1004054-24004.jpg",
+          desc: "Cozy hoodie with front pocket.",
+        },
+        {
+          id: "p4",
+          title: "Minimal Cap",
+          category: "Accessories",
+          price: 129,
+          img: "https://tse1.mm.bing.net/th/id/OIP.bElY9mVuk_fDRs6tDmUotAAAAA?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          desc: "One-size, adjustable strap.",
+        },
+        {
+          id: "p5",
+          title: "Slim Fit Tee",
+          category: "T-Shirt",
+          price: 269,
+          img: "https://cdn-s3.touchofmodern.com/products/002/358/511/2d2339867e194f6d0757c846523da62d_medium@2x.jpg?1647297347",
+          desc: "Slim silhouette, clean finish.",
+        },
+        {
+          id: "p6",
+          title: "Black Overshirt",
+          category: "Jacket",
+          price: 699,
+          img: "https://tse4.mm.bing.net/th/id/OIP.XU6hQ_g8n85yhYRbdr5UfwHaJ4?cb=ucfimg2ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3",
+          desc: "Lightweight overshirt, layered look.",
+        },
+      {
+        id: "p7",
+        title: "Marwan Mohamed",
+        category: "Jacket",
+        price: 1,
+        img: "https://app.kits.ai/_next/image?url=https:%2F%2Farpeggi-prod-public.s3.us-west-2.amazonaws.com%2Fvoice-models%2Fimages%2FmQND5W6J6KGk6RP1MPEbu.png&w=640&q=75",
+        desc:" maro",
+      }
+      ];
+
+      /* ====== State & Local Storage ====== */
+      let CART = JSON.parse(localStorage.getItem("m10_cart") || "[]");
+      const saveCart = () =>
+        localStorage.setItem("m10_cart", JSON.stringify(CART));
+
+      /* ====== Splash hide ====== */
+      setTimeout(() => {
+        document.getElementById("splash").classList.add("hidden");
+      }, 2000);
+
+      /* ====== Render products ====== */
+      function renderProducts() {
+        const q = (
+          document.getElementById("searchInput").value || ""
+        ).toLowerCase();
+        const grid = document.getElementById("products");
+        grid.innerHTML = "";
+        const filtered = PRODUCTS.filter(
+          (p) =>
+            p.title.toLowerCase().includes(q) ||
+            p.category.toLowerCase().includes(q)
+        );
+        filtered.forEach((p) => {
+          const el = document.createElement("div");
+          el.className = "card";
+          el.innerHTML = `
+      <div class="img"><img src="${p.img}" alt="${p.title}"></div>
+      <div class="body">
+        <h3>${p.title}</h3>
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="price">${p.price} EGP</div>
+          <div style="font-size:12px;color:var(--muted)">${p.category}</div>
+        </div>
+        <div class="actions">
+          <button class="btn outline" onclick="openModal('${p.id}')">View</button>
+          <button class="btn primary" onclick="addToCart('${p.id}',1)">Add</button>
+        </div>
+      </div>
+    `;
+          grid.appendChild(el);
+        });
+      }
+      renderProducts();
+
+      /* ====== Modal logic ====== */
+      function openModal(id) {
+        const p = PRODUCTS.find((x) => x.id === id);
+        if (!p) return;
+        document.getElementById("modalImg").src = p.img;
+        document.getElementById("modalTitle").textContent = p.title;
+        document.getElementById("modalPrice").textContent = p.price + " EGP";
+        document.getElementById("modalDesc").textContent = p.desc;
+        document.getElementById("modalCategory").textContent = p.category;
+        document.getElementById("modalQty").value = 1;
+        document.getElementById("modal").classList.add("open");
+        document.getElementById("modal").dataset.current = id;
+      }
+      function closeModal(e) {
+        if (
+          e &&
+          e.target &&
+          e.target.classList &&
+          e.target.classList.contains("modal")
+        ) {
+          document.getElementById("modal").classList.remove("open");
+        } else {
+          document.getElementById("modal").classList.remove("open");
+        }
+      }
+      function addFromModal() {
+        const id = document.getElementById("modal").dataset.current;
+        const qty = parseInt(document.getElementById("modalQty").value) || 1;
+        addToCart(id, qty);
+        closeModal();
+      }
+
+      /* ====== Cart functions ====== */
+      function findCartItem(id) {
+        return CART.find((i) => i.id === id);
+      }
+      function addToCart(id, qty = 1) {
+        const prod = PRODUCTS.find((p) => p.id === id);
+        if (!prod) return;
+        const item = findCartItem(id);
+        if (item) item.qty += qty;
+        else
+          CART.push({
+            id: prod.id,
+            title: prod.title,
+            price: prod.price,
+            img: prod.img,
+            qty,
+          });
+        saveCart();
+        renderCart();
+        openCart();
+      }
+      function renderCart() {
+        const list = document.getElementById("cartList");
+        list.innerHTML = "";
+        let total = 0;
+        CART.forEach((item) => {
+          total += item.price * item.qty;
+          const row = document.createElement("div");
+          row.className = "cart-item";
+          row.innerHTML = `
+      <img src="${item.img}" alt="${item.title}">
+      <div style="flex:1">
+        <div style="font-weight:700">${item.title}</div>
+        <div style="color:var(--muted);font-size:13px">${item.price} EGP</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <div class="qty">
+          <button onclick="changeQty('${item.id}',-1)">-</button>
+          <div style="padding:6px 8px;border-radius:6px;background:#fff;border:1px solid #eee">${item.qty}</div>
+          <button onclick="changeQty('${item.id}',1)">+</button>
+        </div>
+        <button style="background:transparent;border:none;color:#c33;cursor:pointer;font-weight:700" onclick="removeItem('${item.id}')">Remove</button>
+      </div>
+    `;
+          list.appendChild(row);
+        });
+        document.getElementById("cartTotal").textContent = total.toFixed(2);
+        document.getElementById("cartCount").textContent = CART.reduce(
+          (s, i) => s + i.qty,
+          0
+        );
+        // update checkout availability
+        return total;
+      }
+      function changeQty(id, delta) {
+        const it = findCartItem(id);
+        if (!it) return;
+        it.qty += delta;
+        if (it.qty <= 0) CART = CART.filter((x) => x.id !== id);
+        saveCart();
+        renderCart();
+      }
+      function removeItem(id) {
+        CART = CART.filter((x) => x.id !== id);
+        saveCart();
+        renderCart();
+      }
+      function clearCart() {
+        if (!confirm("Clear cart?")) return;
+        CART = [];
+        saveCart();
+        renderCart();
+      }
+
+      /* ====== Cart sidebar controls ====== */
+      function openCart() {
+        document.getElementById("cartSidebar").classList.add("open");
+      }
+      function closeCart() {
+        document.getElementById("cartSidebar").classList.remove("open");
+      }
+
+      /* ====== Checkout flow ====== */
+      function goCheckout() {
+        if (CART.length === 0) {
+          alert("Cart is empty");
+          return;
+        }
+        document.getElementById("checkoutModal").classList.add("open");
+      }
+      function closeCheckoutModal(e) {
+        document.getElementById("checkoutModal").classList.remove("open");
+      }
+      function completeOrder(e) {
+        e.preventDefault();
+        const form = e.target;
+        const data = {
+          name: form.name.value.trim(),
+          email: form.email.value.trim(),
+          phone: form.phone.value.trim(),
+          address: form.address.value.trim(),
+          items: CART.slice(),
+          total: CART.reduce((s, i) => s + i.price * i.qty, 0),
+        };
+        // simple validation
+        if (!data.name || !data.email || !data.phone || !data.address) {
+          alert("Please fill all fields");
+          return;
+        }
+        // simulate order processing
+        localStorage.setItem("m10_last_order", JSON.stringify(data));
+        // clear cart
+        CART = [];
+        saveCart();
+        renderCart();
+        closeCheckoutModal();
+        // show confirmation modal with summary
+        document.getElementById("orderSummary").innerHTML = `
+    <strong>Order #${Date.now().toString().slice(-6)}</strong><br>
+    ${data.items.length} items — Total: ${data.total.toFixed(2)} EGP<br>
+    We will contact you at <strong>${data.phone}</strong>
+  `;
+        document.getElementById("confirmModal").classList.add("open");
+      }
+
+      /* ====== Confirmation modal ====== */
+      function closeConfirm(e) {
+        document.getElementById("confirmModal").classList.remove("open");
+      }
+
+      /* ====== Helpers ====== */
+      function goHome() {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+      function scrollToProducts() {
+        document
+          .getElementById("products")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+      function resetFilters() {
+        document.getElementById("searchInput").value = "";
+        renderProducts();
+      }
+      function filterBy(cat) {
+        document.getElementById("searchInput").value = cat;
+        renderProducts();
+      }
+
+      /* close modals when clicking outside etc */
+      function closeModalEventHandlers() {
+        // modal close handled via functions
+      }
+      renderCart();
+
+      /* open / close handlers for modal clicks */
+      document.querySelectorAll(".modal").forEach((m) => {
+        m.addEventListener("click", (e) => {
+          if (e.target === m) {
+            m.classList.remove("open");
+          }
+        });
+      });
+    </script>
+  </body>
+</html>
